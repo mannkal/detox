@@ -33,12 +33,13 @@ class EmulatorDriver extends AndroidDriver {
     return config;
   }
 
-  async boot(deviceId) {
-    await this.emulator.boot(deviceId);
-    await this.adb.waitForBootComplete(deviceId);
+  async boot(deviceConfig) {
+    await this.emulator.boot(deviceConfig);
+    await this.adb.waitForBootComplete(deviceConfig.name);
   }
 
-  async acquireFreeDevice(name) {
+  async acquireFreeDevice(deviceConfig) {
+    const name = deviceConfig.name;
     const avds = await this.emulator.listAvds();
     if (!avds) {
       const avdmanagerPath = path.join(Environment.getAndroidSDKPath(), 'tools', 'bin', 'avdmanager');
@@ -52,7 +53,7 @@ class EmulatorDriver extends AndroidDriver {
     }
 
     await this._fixEmulatorConfigIniSkinName(name);
-    await this.emulator.boot(name);
+    await this.emulator.boot(deviceConfig);
 
     const adbDevices = await this.adb.devices();
     const filteredDevices = _.filter(adbDevices, {type: 'emulator', name: name});

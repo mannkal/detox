@@ -22,8 +22,10 @@ class Emulator {
     return (await exec(`${this.emulatorBin} ${cmd}`)).stdout;
   }
 
-  async boot(emulatorName) {
-    const cmd = `-verbose -gpu host -no-audio @${emulatorName}`;
+  async boot(deviceConfig) {
+    const emulatorName = deviceConfig.name;
+    const launchOptions = deviceConfig.launchOptions || '-verbose -gpu host -no-audio';
+    const cmd = `${launchOptions} @${emulatorName}`;
     log.verbose(this.emulatorBin, cmd);
     const tempLog = `./${emulatorName}.log`;
     const stdout = fs.openSync(tempLog, 'a');

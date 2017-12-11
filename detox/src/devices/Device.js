@@ -17,7 +17,7 @@ class Device {
 
   async prepare(params = {}) {
     this._binaryPath = this._getAbsolutePath(this._deviceConfig.binaryPath);
-    this._deviceId = await this.deviceDriver.acquireFreeDevice(this._deviceConfig.name);
+    this._deviceId = await this.deviceDriver.acquireFreeDevice(this._deviceConfig);
     this._bundleId = await this.deviceDriver.getBundleIdFromBinary(this._binaryPath);
     this._artifactsCopier.prepare(this._deviceId);
 

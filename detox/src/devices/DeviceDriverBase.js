@@ -7,7 +7,7 @@ class DeviceDriverBase {
     this.client = client;
   }
 
-  async acquireFreeDevice(name) {
+  async acquireFreeDevice(deviceConfig) {
     await Promise.resolve('');
   }
 
